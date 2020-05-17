@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"tomatoandtomato.gitee.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Note功能简述RFID阵列，置于床垫下，检测睡姿 （精度96.7%，利用 RSSI）和 呼吸频率（误差 0.7 bpm，利用相位）。 即插即用（不用训练数据，需要采集一个仰卧快照），保护隐私，不用复杂的设备，不用穿戴设备">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【笔记】TagSheet：Sleeping Posture Recognition with an Unobtrusive Passive Tag Matrix">
+<meta property="og:url" content="https://tomatoandtomato.gitee.io/2019/12/02/NOTE_TagSheet/index.html">
+<meta property="og:site_name" content="木木">
+<meta property="og:description" content="Note功能简述RFID阵列，置于床垫下，检测睡姿 （精度96.7%，利用 RSSI）和 呼吸频率（误差 0.7 bpm，利用相位）。 即插即用（不用训练数据，需要采集一个仰卧快照），保护隐私，不用复杂的设备，不用穿戴设备">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_01.png">
+<meta property="og:image" content="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_03.png">
+<meta property="og:image" content="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_04.png">
+<meta property="article:published_time" content="2019-12-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T05:47:50.631Z">
+<meta property="article:author" content="Lai Huihui">
+<meta property="article:tag" content="PAPER">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_01.png">
+
+<link rel="canonical" href="https://tomatoandtomato.gitee.io/2019/12/02/NOTE_TagSheet/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【笔记】TagSheet：Sleeping Posture Recognition with an Unobtrusive Passive Tag Matrix | 木木</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118753708-2# <app_id>"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-118753708-2# <app_id>');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">木木</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">MUMU</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://tomatoandtomato.gitee.io/2019/12/02/NOTE_TagSheet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Lai Huihui">
+      <meta itemprop="description" content="柔水终成雕刀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木木">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【笔记】TagSheet：Sleeping Posture Recognition with an Unobtrusive Passive Tag Matrix
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-02T00:00:00+08:00">2019-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-17 13:47:50" itemprop="dateModified" datetime="2020-05-17T13:47:50+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RFID/" itemprop="url" rel="index"><span itemprop="name">RFID</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/12/02/NOTE_TagSheet/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/02/NOTE_TagSheet/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>RFID阵列，置于床垫下，检测<strong>睡姿</strong> （精度96.7%，利用 RSSI）和 呼吸频率（误差 0.7 bpm，利用相位）。</p>
+<p>即插即用（不用训练数据，需要采集一个仰卧快照），保护隐私，不用复杂的设备，不用穿戴设备</p>
+<a id="more"></a>
+<h3 id="实验设备"><a href="#实验设备" class="headerlink" title="实验设备"></a>实验设备</h3><p>$30 \times 18$ 标签（Impinj H47， $540$ 个，$5cm \times 5cm$  ，间隔 $2cm$），两天线 Larid S9028（两米高），Impinj Speedway R420 reader（参考快照采集时间：3s）（实验结果，拍照检验）</p>
+<h2 id="TAGSHEET"><a href="#TAGSHEET" class="headerlink" title="TAGSHEET"></a>TAGSHEET</h2><h3 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h3><p>6种睡姿：</p>
+<div align="center">
+    <img height="150" src="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_01.png"/>
+</div>
+
+<ol>
+<li>RSSI 用差值（人躺上前后的数值差，空床的快照为 $R_{0}$）</li>
+</ol>
+<script type="math/tex; mode=display">
+\hat{R}_{i}=\left|R_{i}-R_{0}\right|=\left\{\left|r_{m, n}^{i}-r_{m, n}^{0}\right|\right\}</script><ol>
+<li>没有收到信号的标签置为一个较小的值（比阅读器能收到的最小值更小）（因为人体挡住了）</li>
+</ol>
+<h3 id="存在问题（II-B最后）"><a href="#存在问题（II-B最后）" class="headerlink" title="存在问题（II.B最后）"></a>存在问题（II.B最后）</h3><ol>
+<li>标签大（每个标签作为一个像素） -&gt; 分辨率低 -&gt; <strong>图像处理</strong></li>
+<li>被周遭环境影响，不同环境+不同人 -&gt; RSSI 用差值+参考快照</li>
+<li>睡姿分类 去训练过程 -&gt; 用传统图像处理</li>
+</ol>
+<h3 id="图像处理-姿势识别"><a href="#图像处理-姿势识别" class="headerlink" title="图像处理-姿势识别"></a>图像处理-姿势识别</h3><ol>
+<li><p>预处理：</p>
+<ol>
+<li>平滑去噪声（Gaussian blur，II.C），灰度图二值化+去离散点（最大类间差 Ostu），</li>
+<li>离散点（II.C，人体反射的叠加信号引起？？？caused by destructive interference of superposed signals，II.B These reflected signals and the line-of-sight signals from the reader will be superposed at the position of each tag, leading to destructive interference or constructive interference）</li>
+</ol>
+<div align="center">
+    <img height="150" src="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_03.png"/>
+</div>
+</li>
+<li><p>姿势识别（分多步，II.D）</p>
+<ol>
+<li><p>【粗】根据面积大小（参考参考快照面积，不同类不同阈值） C1 ={nobody}, C2 ={supine, prone}, and C3 ={left log, right log, left foetus, right foetus}</p>
+</li>
+<li><p>【粗】根据高度和下半身宽度区分 C31 ={left log, right log} and C32 ={left foetus, right foetus}</p>
+</li>
+<li><p>【细 Supine vs. Prone】面部朝向不同 -&gt; 头部的轴与身体轴的距离（去除四肢影响 linear filter+Ostu-&gt; <strong>BW3</strong>）（放大距离：计算头部轴用权重）</p>
+<div align="center">
+    <img height="150" src="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/TagSheet_04.png"/>
+</div>
+</li>
+<li><p>【细 Left Log vs. Right Log】二次方程拟合</p>
+</li>
+<li><p>【细 Left Foetus vs. Right Foetus: Take a close】三次方程拟合</p>
+</li>
+</ol>
+</li>
+<li><p>调整图像角度（II.E）</p>
+<ol>
+<li>PCA -&gt; C 的 特征值大的为主轴<script type="math/tex; mode=display">
+C=\left(\begin{array}{cc}{\operatorname{cov}(\mathbf{x}, \mathbf{x})} & {\operatorname{cov}(\mathbf{x}, \mathbf{y})} \\ {\operatorname{cov}(\mathbf{y}, \mathbf{x})} & {\operatorname{cov}(\mathbf{y}, \mathbf{y})}\end{array}\right)</script><script type="math/tex; mode=display">
+\operatorname{cov}(\mathbf{x}, \mathbf{y})=\frac{\sum_{i=1}^{n}\left(x_{i}-\overline{\mathbf{x}}\right)\left(y_{i}-\overline{\mathbf{y}}\right)}{n-1}</script></li>
+</ol>
+</li>
+<li><p>换姿势的处理（II.F）</p>
+<ol>
+<li>相邻帧的变化大小（变化的二值化像素的个数）</li>
+</ol>
+</li>
+<li><p>RF辐射：安全（II.G）</p>
+</li>
+</ol>
+<h2 id="呼吸监测"><a href="#呼吸监测" class="headerlink" title="呼吸监测"></a>呼吸监测</h2><ol>
+<li><p>监测的变量</p>
+<ol>
+<li><p>胸腔附近的像素</p>
+</li>
+<li><p>用相位监测（相位信息更加敏感）</p>
+</li>
+<li><p>排除四肢引起的相位变化 -&gt; 只关注以下区间的相位变化 <script type="math/tex">\rho=3</script></p>
+<script type="math/tex; mode=display">
+\left[Q_{1}-\rho\left(Q_{3}-Q_{1}\right), Q_{3}+\rho\left(Q_{3}-Q_{1}\right)\right]</script></li>
+</ol>
+</li>
+<li><p>采样频率问题（III.C）</p>
+<ol>
+<li>全图采集过慢（标签多）-&gt; compressive sensing (CS)选其中一些标签</li>
+<li>身体移动 -&gt; 标签变化过大就转换为姿势识别模式</li>
+</ol>
+</li>
+<li><p>估计呼吸速率</p>
+<ol>
+<li>过滤其他频率的噪声（呼吸频率[0.16, 0.62] ） -&gt; wavelet filter</li>
+<li>FFT -&gt; 峰值就是呼吸速率</li>
+</ol>
+</li>
+</ol>
+<h1 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h1><ol>
+<li><p>造成离散点的原因</p>
+</li>
+<li><p>FFT 的输入 -&gt; 怎么整合采样的多个标签的相位值？</p>
+</li>
+</ol>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><ol>
+<li>FFT</li>
+<li>Ostu</li>
+<li>Gaussian blur</li>
+<li>PCA？</li>
+</ol>
+<h1 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h1><p><a href="https://ieeexplore.ieee.org/document/8737599" target="_blank" rel="noopener">TagSheet：Sleeping Posture Recognition with an Unobtrusive Passive Tag Matrix</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PAPER/" rel="tag"><i class="fa fa-tag"></i> PAPER</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/29/TheTheoryofMatrix_SVD/" rel="prev" title="【矩阵论】奇异值分解 SVD">
+      <i class="fa fa-chevron-left"></i> 【矩阵论】奇异值分解 SVD
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/10/NOTE_Enabling%20Gesture-based%20Interactions%20with%20Objects/" rel="next" title="【笔记】Enabling Gesture-based Interactions with Objects">
+      【笔记】Enabling Gesture-based Interactions with Objects <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Note"><span class="nav-number">1.</span> <span class="nav-text">Note</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#功能"><span class="nav-number">1.1.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述"><span class="nav-number">1.1.1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验设备"><span class="nav-number">1.1.2.</span> <span class="nav-text">实验设备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TAGSHEET"><span class="nav-number">1.2.</span> <span class="nav-text">TAGSHEET</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统"><span class="nav-number">1.2.1.</span> <span class="nav-text">系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在问题（II-B最后）"><span class="nav-number">1.2.2.</span> <span class="nav-text">存在问题（II.B最后）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像处理-姿势识别"><span class="nav-number">1.2.3.</span> <span class="nav-text">图像处理-姿势识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#呼吸监测"><span class="nav-number">1.3.</span> <span class="nav-text">呼吸监测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Question"><span class="nav-number">2.</span> <span class="nav-text">Question</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法"><span class="nav-number">3.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#REFERENCE"><span class="nav-number">4.</span> <span class="nav-text">REFERENCE</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lai Huihui"
+      src="/uploads/avatar.png">
+  <p class="site-author-name" itemprop="name">Lai Huihui</p>
+  <div class="site-description" itemprop="description">柔水终成雕刀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/laihuihui" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;laihuihui" rel="noopener" target="_blank"><i class="fa fa-wifi fa-fw"></i>知乎</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.google.com&#x2F;" rel="noopener" target="_blank">Google</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lai Huihui</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">12k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el         : '#valine-comments',
+      path       : location.pathname,
+    }, {"enable":true,"appId":"xIDFze9bcNWbVREzjXquzd7a-gzGzoHsz","appKey":"H1eK6PyhuER9b8KQYNzBcJa0","notify":false,"verify":false,"placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
