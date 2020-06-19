@@ -22,7 +22,7 @@
 
   <meta name="description" content="OpenGL（英语：Open Graphics Library，译名：开放图形库或者“开放式图形库”）是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。(来自维基百科)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【图形学】OPENGL + Visual Studio 2019 环境配置">
+<meta property="og:title" content="【OpenGL】GLFW + GLEW + Visual Studio 2019 环境配置">
 <meta property="og:url" content="https://laihuihui.github.io/2020/06/18/OPENGL+VS%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="HAVEN">
 <meta property="og:description" content="OpenGL（英语：Open Graphics Library，译名：开放图形库或者“开放式图形库”）是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。(来自维基百科)">
@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/opengl_20200618111100.png">
 <meta property="og:image" content="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/opengl_20200618111437.png">
 <meta property="article:published_time" content="2020-06-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-18T03:28:53.992Z">
+<meta property="article:modified_time" content="2020-06-19T12:42:41.528Z">
 <meta property="article:author" content="Lai Huihui">
 <meta property="article:tag" content="OpenGL">
 <meta property="article:tag" content="Visual Studio">
@@ -53,7 +53,7 @@
   };
 </script>
 
-  <title>【图形学】OPENGL + Visual Studio 2019 环境配置 | HAVEN</title>
+  <title>【OpenGL】GLFW + GLEW + Visual Studio 2019 环境配置 | HAVEN</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118753708-2"></script>
     <script>
@@ -116,6 +116,7 @@
       <h1 class="site-title">HAVEN</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">LHH's BLOG</p>
   </div>
 
   <div class="site-nav-right">
@@ -150,7 +151,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
@@ -196,7 +197,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【图形学】OPENGL + Visual Studio 2019 环境配置
+          【OpenGL】GLFW + GLEW + Visual Studio 2019 环境配置
         </h1>
 
         <div class="post-meta">
@@ -205,10 +206,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-18 00:00:00 / 修改时间：11:28:53" itemprop="dateCreated datePublished" datetime="2020-06-18T00:00:00+08:00">2020-06-18</time>
+              <time title="创建时间：2020-06-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-18T00:00:00+08:00">2020-06-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-19 20:42:41" itemprop="dateModified" datetime="2020-06-19T20:42:41+08:00">2020-06-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -239,7 +246,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>415</span>
+              <span>500</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -300,6 +307,8 @@
     <img width="600" src="https://gitee.com/tomatoandtomato/image/raw/master/blogImg/opengl_20200618111437.png"/>
   </div>
 
+<h2 id="GLAD"><a href="#GLAD" class="headerlink" title="GLAD"></a>GLAD</h2><p>可用 <a href="https://glad.dav1d.de/" target="_blank" rel="noopener">GLAD</a> 代替 GLEW，根据 <a href="https://learnopengl-cn.github.io/01%20Getting%20started/02%20Creating%20a%20window/" target="_blank" rel="noopener">LearnOpenGL</a> 可将 gl 版本设置为 <code>3.3</code>，模式设置为 <code>Core</code>，下载 zip 文件，解压后将 <code>.c</code> 文件放到项目下，头文件路径导入项目。 </p>
+
     </div>
 
     
@@ -318,10 +327,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/17/Hexo-Next/" rel="prev" title="【博客搭建】Hexo+NexT">
-      <i class="fa fa-chevron-left"></i> 【博客搭建】Hexo+NexT
+    <a href="/2020/05/17/Zotero/" rel="prev" title="Zotero 使用">
+      <i class="fa fa-chevron-left"></i> Zotero 使用
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/19/LearnOpenGL_GLFW/" rel="next" title="【OpenGL】学习笔记：GLFW">
+      【OpenGL】学习笔记：GLFW <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -381,7 +393,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-1-VS-安装"><span class="nav-number">2.</span> <span class="nav-text">Step 1. VS 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-2-GLEW库-GLFW库-下载"><span class="nav-number">3.</span> <span class="nav-text">Step 2. GLEW库 &#x2F; GLFW库 下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-配置"><span class="nav-number">4.</span> <span class="nav-text">Step 3. 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HELLO-WORLD"><span class="nav-number">5.</span> <span class="nav-text">HELLO WORLD</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-1-VS-安装"><span class="nav-number">2.</span> <span class="nav-text">Step 1. VS 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-2-GLEW库-GLFW库-下载"><span class="nav-number">3.</span> <span class="nav-text">Step 2. GLEW库 &#x2F; GLFW库 下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-配置"><span class="nav-number">4.</span> <span class="nav-text">Step 3. 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HELLO-WORLD"><span class="nav-number">5.</span> <span class="nav-text">HELLO WORLD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GLAD"><span class="nav-number">6.</span> <span class="nav-text">GLAD</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -397,7 +409,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
