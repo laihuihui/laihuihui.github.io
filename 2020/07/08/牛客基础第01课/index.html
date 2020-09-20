@@ -20,20 +20,22 @@
     var CONFIG = {"hostname":"laihuihui.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="GLFW is a free, Open Source, multi-platform library for OpenGL, OpenGL ES and Vulkan application development. It provides a simple, platform-independent API for creating windows, contexts and surface">
+  <meta name="description" content="https:&#x2F;&#x2F;www.nowcoder.com&#x2F;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【OpenGL】学习笔记：GLFW">
-<meta property="og:url" content="https://laihuihui.github.io/2020/06/19/LearnOpenGL_GLFW/index.html">
+<meta property="og:title" content="牛客网算法基础入门班01">
+<meta property="og:url" content="https://laihuihui.github.io/2020/07/08/%E7%89%9B%E5%AE%A2%E5%9F%BA%E7%A1%80%E7%AC%AC01%E8%AF%BE/index.html">
 <meta property="og:site_name" content="HAVEN">
-<meta property="og:description" content="GLFW is a free, Open Source, multi-platform library for OpenGL, OpenGL ES and Vulkan application development. It provides a simple, platform-independent API for creating windows, contexts and surface">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.nowcoder.com&#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-08T08:17:06.000Z">
+<meta property="article:published_time" content="2020-07-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-20T07:06:42.641Z">
 <meta property="article:author" content="Lai Huihui">
-<meta property="article:tag" content="OpenGL">
+<meta property="article:tag" content="排序">
+<meta property="article:tag" content="二分法">
+<meta property="article:tag" content="异或">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://laihuihui.github.io/2020/06/19/LearnOpenGL_GLFW/">
+<link rel="canonical" href="https://laihuihui.github.io/2020/07/08/%E7%89%9B%E5%AE%A2%E5%9F%BA%E7%A1%80%E7%AC%AC01%E8%AF%BE/">
 
 
 <script id="page-configurations">
@@ -46,7 +48,7 @@
   };
 </script>
 
-  <title>【OpenGL】学习笔记：GLFW | HAVEN</title>
+  <title>牛客网算法基础入门班01 | HAVEN</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118753708-2"></script>
     <script>
@@ -177,7 +179,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://laihuihui.github.io/2020/06/19/LearnOpenGL_GLFW/">
+    <link itemprop="mainEntityOfPage" href="https://laihuihui.github.io/2020/07/08/%E7%89%9B%E5%AE%A2%E5%9F%BA%E7%A1%80%E7%AC%AC01%E8%AF%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.png">
@@ -190,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【OpenGL】学习笔记：GLFW
+          牛客网算法基础入门班01
         </h1>
 
         <div class="post-meta">
@@ -200,14 +202,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-06-19 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-19T00:00:00+08:00">2020-06-19</time>
+              <time title="创建时间：2020-07-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-08T00:00:00+08:00">2020-07-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-08 16:17:06" itemprop="dateModified" datetime="2020-07-08T16:17:06+08:00">2020-07-08</time>
+                <time title="修改时间：2020-09-20 15:06:42" itemprop="dateModified" datetime="2020-09-20T15:06:42+08:00">2020-09-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -215,7 +217,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%81%B0%E5%90%8C%E5%AD%A6%E7%9A%84%E5%9A%BC%E8%8F%9C%E6%A0%B9%E8%AF%BE%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">灰同学的嚼菜根课程</span></a>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
                 </span>
             </span>
 
@@ -228,8 +230,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/06/19/LearnOpenGL_GLFW/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/19/LearnOpenGL_GLFW/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/07/08/%E7%89%9B%E5%AE%A2%E5%9F%BA%E7%A1%80%E7%AC%AC01%E8%AF%BE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/08/%E7%89%9B%E5%AE%A2%E5%9F%BA%E7%A1%80%E7%AC%AC01%E8%AF%BE/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -239,7 +241,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>836</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -258,75 +260,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
-<li><a href="https://www.glfw.org/docs/latest/index.html" target="_blank" rel="noopener">GLFW</a> is a free, Open Source, multi-platform library for OpenGL, OpenGL ES and Vulkan application development. It provides a simple, platform-independent API for <code>creating windows, contexts and surfaces, reading input, handling events, etc</code>.(开窗口、纹理表面、读输入、处理事件)</li>
-</ul>
+        <blockquote>
+<blockquote>
+<p><a href="https://www.nowcoder.com/" target="_blank" rel="noopener">https://www.nowcoder.com/</a></p>
+</blockquote>
+</blockquote>
 <a id="more"></a>
-<h2 id="Six-Sections-of-the-API"><a href="#Six-Sections-of-the-API" class="headerlink" title="Six Sections of the API"></a>Six Sections of the API</h2><ul>
-<li><a href="https://www.glfw.org/docs/latest/intro_guide.html" target="_blank" rel="noopener">Introduction to the API</a></li>
-<li><a href="https://www.glfw.org/docs/latest/window_guide.html" target="_blank" rel="noopener">Window guide</a></li>
-<li><a href="https://www.glfw.org/docs/latest/context_guide.html" target="_blank" rel="noopener">Context guide</a></li>
-<li><a href="https://www.glfw.org/docs/latest/vulkan_guide.html" target="_blank" rel="noopener">Vulkan guide</a></li>
-<li><a href="https://www.glfw.org/docs/latest/monitor_guide.html" target="_blank" rel="noopener">Monitor guide</a></li>
-<li><a href="https://www.glfw.org/docs/latest/input_guide.html" target="_blank" rel="noopener">Input guide</a></li>
+<h1 id="第一课"><a href="#第一课" class="headerlink" title="第一课"></a>第一课</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><ul>
+<li><strong>常数操作</strong>：一个操作如果和样本的数据量没有关系，每次都是固定时间内完成的操作</li>
+<li><strong>时间复杂度</strong>：一个算法流程中，常数操作数量的一个指标（发生了多少常数操作）<ul>
+<li>表达式O(f(n))：只要高阶项，不要低阶项，也不要高阶的系数，剩下的就是 f(n)<ul>
+<li>eg：4N^3+N^2+4 -&gt; O(N^3)</li>
 </ul>
-<h2 id="Introduction-to-the-API"><a href="#Introduction-to-the-API" class="headerlink" title="Introduction to the API"></a>Introduction to the API</h2><ul>
-<li><p>初始化库</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// glfwInitHint(GLFW_JOYSTICK_HAT_BUTTONS, GLFW_FALSE); // 初始化库之前初始化 hints (必要的话)</span></span><br><span class="line"><span class="keyword">if</span> (!glfwInit()) &#123;</span><br><span class="line"><span class="comment">// Handle initialization failure</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>终止库（在应用退出之前）</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glfwTerminate();</span><br></pre></td></tr></table></figure>
+<li>评价算法好坏：先看时间复杂度的指标，然后分析不同数据样本下的实际运行时间（常数项时间）。</li>
+<li>算法流程按照<strong>最差的情况</strong>来估计时间复杂度</li>
+</ul>
 </li>
-<li><p>错误处理</p>
-</li>
-<li><p>坐标系统</p>
+</ul>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>场景：同学A~G从矮到高排队，其中A最矮，B其次…G最高（队头最矮，队尾最高）</p>
+<p>目前顺序：G C B E F A D</p>
+<p>正确顺序：A B C D E F G</p>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>联想：</p>
 <ul>
-<li>包括虚拟屏幕坐标系 &amp; 内容区域坐标系</li>
-<li>X 轴向右👉，Y 轴向下👇</li>
+<li>从队尾开始，相邻两人依次比较，保证这两个同学是矮在前，高在后</li>
+<li>每轮可以选出一个最矮的</li>
+<li>第 i 轮参与比较的人数是 6-i 个（前 i-1个位置已经正确排序）</li>
 </ul>
-</li>
-<li><p>Guarantees and limitations</p>
+<p>时间复杂度： O(N^2) </p>
+<p>额外空间复杂度 O(1)</p>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p>联想：</p>
 <ul>
-<li>指针<ul>
-<li>用户申请的指针需要用户自己释放；</li>
-<li>GLFW 提供的指针，用户无法释放</li>
+<li>与冒泡类似，每轮从待排序的人中，选出一个最矮的同学</li>
+<li>最矮的人所在位置为 x ，他在正确排序中所在位置为 y，则交换目前 x y 位置上的同学</li>
+<li>第 i 轮参与比较的人数是 6-i 个（前 i-1个位置已经正确排序）</li>
 </ul>
-</li>
-<li>Reentrancy<ul>
-<li>GLFW 事件处理和对象销毁不可重入</li>
-<li>不能从任何回调函数中调用以下函数：glfwDestroyWindow、glfwDestroyCursor、glfwPollEvents、glfwWaitEvents、glfwWaitEventsTimeout、glfwTerminate</li>
-</ul>
-</li>
-<li>Thread safety<ul>
-<li>函数只能在 main thread 调用，还是任意 thread，可在 reference documentation 查看</li>
-</ul>
-</li>
-<li>版本兼容性<ul>
-<li>reference documentation 和其他文档冲突时，以 reference documentation 为准</li>
-<li>主版本相同，向下兼容</li>
-<li>主版本不同，不保证兼容性</li>
-</ul>
-</li>
-<li>事件顺序<ul>
-<li>相关事件的到达顺序不能保证在各个平台上都一致；</li>
-<li>例外：合成键和鼠标按钮释放事件 始终在  window defocus 事件之后传递。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>版本管理</p>
+<p>复杂度：同冒泡</p>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>联想：</p>
 <ul>
-<li>编译时的版本<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"Compiled against GLFW %i.%i.%i\n"</span>,</span><br><span class="line">     GLFW_VERSION_MAJOR,</span><br><span class="line">     GLFW_VERSION_MINOR,</span><br><span class="line">     GLFW_VERSION_REVISION);</span><br></pre></td></tr></table></figure></li>
-<li>运行时的版本<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> major, minor, revision;</span><br><span class="line">glfwGetVersion(&amp;major, &amp;minor, &amp;revision);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"Running against GLFW %i.%i.%i\n"</span>, major, minor, revision);</span><br></pre></td></tr></table></figure></li>
-<li>版本 string (函数  glfwGetVersionString)<ul>
-<li>eg: <code>3.0.0 Win32 WGL MinGW</code></li>
-<li>GLFW 版本、窗口系统 API、context creation API、其他任何选项/API</li>
+<li>每轮保证前 i-1 个人有序</li>
+<li>第 i 轮中，在位置 i 上的同学x，依次与站在他前面的同学比较，若 x 比较矮，则交换两者，否则，进入下一轮</li>
+</ul>
+<p>复杂度：同冒泡</p>
+<h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>应用：</p>
+<ul>
+<li>在一个有序数组中，找某个数是否存在</li>
+<li>在一个有序数组中，找 &gt;= 某个数最左侧的位置</li>
+<li>局部最小值问题</li>
+</ul>
+<h2 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h2><ul>
+<li>0^N == N</li>
+<li>N^N == 0</li>
+<li>满足 <strong>交换律 结合率</strong></li>
+</ul>
+<h3 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h3><ul>
+<li>不用额外变量交换两个数</li>
+<li>一个数组中，一种数出现了奇数次，其他偶数次，怎么找这一个数<ul>
+<li>异或所有</li>
+</ul>
+</li>
+<li>一个数组中，两种数出现了奇数次，其他偶数次，怎么找这两个数<ul>
+<li>异或所有，结果中必然至少有一位为 1 </li>
+<li>根据这位是否为 1， 将所有数分为两类</li>
+<li>每一类异或所有</li>
+</ul>
+</li>
+<li>求 y 中最后一位 1 <ul>
+<li>y &amp; (~y+1)</li>
 </ul>
 </li>
 </ul>
-</li>
+<h2 id="对数器"><a href="#对数器" class="headerlink" title="对数器"></a>对数器</h2><ul>
+<li>想测的方法 a</li>
+<li>好实现的方法 b</li>
+<li>随机样本产生器</li>
+<li>a b 跑相同的随机样本，比较两者的结果</li>
 </ul>
-<h2 id="Window-Guide"><a href="#Window-Guide" class="headerlink" title="Window Guide"></a>Window Guide</h2>
+
     </div>
 
     
@@ -335,7 +345,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/OpenGL/" rel="tag"><i class="fa fa-tag"></i> OpenGL</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 排序</a>
+              <a href="/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 二分法</a>
+              <a href="/tags/%E5%BC%82%E6%88%96/" rel="tag"><i class="fa fa-tag"></i> 异或</a>
           </div>
 
         
@@ -344,12 +356,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/18/OPENGL+VS%E9%85%8D%E7%BD%AE/" rel="prev" title="【OpenGL】GLFW + GLEW + Visual Studio 2019 环境配置">
-      <i class="fa fa-chevron-left"></i> 【OpenGL】GLFW + GLEW + Visual Studio 2019 环境配置
+    <a href="/2020/06/19/LearnOpenGL_GLFW/" rel="prev" title="【OpenGL】学习笔记：GLFW">
+      <i class="fa fa-chevron-left"></i> 【OpenGL】学习笔记：GLFW
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/08/%E7%89%9B%E5%AE%A2%E5%9F%BA%E7%A1%80%E7%AC%AC01%E8%AF%BE/" rel="next" title="牛客网算法基础入门班01">
-      牛客网算法基础入门班01 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/07/08/CodeServer/" rel="next" title="code server">
+      code server <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -410,7 +422,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Six-Sections-of-the-API"><span class="nav-number">1.</span> <span class="nav-text">Six Sections of the API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction-to-the-API"><span class="nav-number">2.</span> <span class="nav-text">Introduction to the API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Window-Guide"><span class="nav-number">3.</span> <span class="nav-text">Window Guide</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一课"><span class="nav-number">1.</span> <span class="nav-text">第一课</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#时间复杂度"><span class="nav-number">1.1.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">1.2.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.2.1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择排序"><span class="nav-number">1.2.2.</span> <span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">1.2.3.</span> <span class="nav-text">插入排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分法"><span class="nav-number">1.3.</span> <span class="nav-text">二分法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异或"><span class="nav-number">1.4.</span> <span class="nav-text">异或</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目："><span class="nav-number">1.4.1.</span> <span class="nav-text">题目：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对数器"><span class="nav-number">1.5.</span> <span class="nav-text">对数器</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
